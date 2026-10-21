@@ -1,6 +1,6 @@
 # agent-playground
 
-给 Java / Spring 开发者用的 agent 练习仓库。每一课是一个独立的 Maven 模块，按编号往后加。现在只有第一课 `01-hello-llm`。
+给 Java / Spring 开发者用的 agent 练习仓库。每一课是一个独立的 Maven 模块，按编号往后加。现在有 `01-hello-llm` 和 `02-tool-calling`。
 
 ## 技术栈
 
@@ -17,7 +17,7 @@
 | 模块 | 主题 | 状态 |
 | --- | --- | --- |
 | `01-hello-llm` | 把一段 prompt 发给模型，拿回文本；再把回答映射成 Java record | 本课 |
-| `02-tool-calling` | 让模型调用 Java 方法 | 计划中 |
+| `02-tool-calling` | 让模型调用 Java 方法 | 本课 |
 | `03-rag` | 检索增强生成 | 计划中 |
 | `04-memory` | 对话记忆 | 计划中 |
 | `05-mcp-server` | 把能力暴露成 MCP server | 计划中 |
@@ -106,4 +106,26 @@ curl -s localhost:8080/api/chat \
 curl -s localhost:8080/api/chat/structured \
   -H 'content-type: application/json' \
   -d '{"topic":"ChatClient"}'
+```
+
+## 运行第二课
+
+先看 [02-tool-calling/README.md](02-tool-calling/README.md)。环境变量和第一课相同。在仓库根目录：
+
+```bash
+mvn -pl 02-tool-calling spring-boot:run
+```
+
+```bash
+curl -s localhost:8080/api/chat \
+  -H 'content-type: application/json' \
+  -d '{"prompt":"北京今天天气怎么样？"}'
+```
+
+CLI 同样用 `cli` profile，跑完一次就退出：
+
+```bash
+mvn -pl 02-tool-calling spring-boot:run \
+  -Dspring-boot.run.profiles=cli \
+  -Dspring-boot.run.arguments="--prompt=帮我算 6 乘 7"
 ```
